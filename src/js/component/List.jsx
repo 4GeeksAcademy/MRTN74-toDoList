@@ -1,68 +1,51 @@
-import React, {useState, useEffect} from "react";
-import styles from "./List.module.css";
+import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
-const List = () => {
-    const [inputValue, setInputValue] = useState("");
-    const [items, setItems] = useState(["No tasks, add a task"]);
-    const [count, setCount] = useState(0);
-    
-    
+function TodoList() {
+  const [tasks, setTasks] = useState([]);
+  const [newTask, setNewTask] = useState('');
 
-    const addItem = () => {
-        if (inputValue !== ""){
-            if(items == "No tasks, add a task"){
-            setItems(items.shift())}
+  const addTask = () => {
+    if (newTask.trim() === '') return;
+    setTasks([...tasks, newTask]);
+    setNewTask('');
+  };
 
-            setItems([...items, inputValue]);
-            setInputValue("");
-            
-            
-        }
-        if(inputValue == ""){
-            alert("Enter a valid task");
-        }  
-        
-    };
-  
-    useEffect(() => {
-        setCount(items.length);
-}, [items]);
+  const deleteTask = (index) => {
+    const updatedTasks = [...tasks];
+    updatedTasks.splice(index, 1);
+    setTasks(updatedTasks);
+  };
 
-    const handlePress = (e) =>{
-        if(e.key === "Enter"){
-            addItem();
-        }
-        if(e.key === "Enter" && inputValue == ""){
-            alert("Enter a valid task");
-        }
-    }
+  const taskCount = tasks.length;
 
-    const deleteValue = (index) => {
-        setItems((prevItems) => prevItems.filter((_, i) => i !== index));
-      };
-      
-
-    
-	return (
-      
-        <div className={styles.app}>
-            <li className={`list-group-item ${styles.li}`} >  <div className={` ${styles.count}`}>Number of tasks: </div><div>{count}</div>  </li>
-                
-
-            <input placeholder="Write your task" onKeyDown={(e) => handlePress(e)} type="text" value= {inputValue} onChange={(e)=> setInputValue(e.target.value)}/>
-            <button onClick={addItem}>Add task</button>
-            <ul class="list-group">
-                {items.map((item,index)=>{
-                    
-                    return<li className={`list-group-item ${styles.li}`} key={index}>{item} <i onClick={() => deleteValue(index)}
-                   class="fa-solid fa-square-xmark"></i>  </li> 
-})}
+  return (
+    <div className="todo-container">
+      <h1>Todos :)</h1>
+      <p>Total de Tareas: {taskCount}</p> {/* Nuevo contador */}
+      <div>
+        <input
+          type="text"
+          placeholder="Nueva tarea"
+          value={newTask}
+          onChange={(e) => setNewTask(e.target.value)}
+        />
+        <button onClick={addTask}>Agregar</button>
+      </div>
+      <ul>
+        {tasks.map((task, index) => (
+          <li key={index}>
+            {task} 
+              <button onClick={() => deleteTask(index)} style={{ marginLeft: '10px' }}>
+                <FontAwesomeIcon icon={faTrash} /> {/* Icono de basurero */}
+              </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 
-            
-            </ul>
-        </div>
-	);
-};
-
-export default List;
+export default TodoList;
