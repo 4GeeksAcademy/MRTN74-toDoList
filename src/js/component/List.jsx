@@ -29,8 +29,10 @@ function TodoList() {
 
   return (
     <div className="todo-container">
-      <h1>Todos :)</h1>
-      <p>Total de Tareas: {taskCount}</p>
+      <h1>LISTA DE TAREAS</h1>
+        <p className="task-count">
+          Total de Tareas: <span>{taskCount}</span>
+        </p>
       <div>
         <input
           type="text"
