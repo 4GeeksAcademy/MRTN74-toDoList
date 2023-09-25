@@ -18,18 +18,25 @@ function TodoList() {
     setTasks(updatedTasks);
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      addTask();
+    }
+  };
+
   const taskCount = tasks.length;
 
   return (
     <div className="todo-container">
       <h1>Todos :)</h1>
-      <p>Total de Tareas: {taskCount}</p> {/* Nuevo contador */}
+      <p>Total de Tareas: {taskCount}</p>
       <div>
         <input
           type="text"
           placeholder="Nueva tarea"
           value={newTask}
           onChange={(e) => setNewTask(e.target.value)}
+          onKeyPress={handleKeyPress}
         />
         <button onClick={addTask}>Agregar</button>
       </div>
@@ -37,15 +44,14 @@ function TodoList() {
         {tasks.map((task, index) => (
           <li key={index}>
             {task} 
-              <button onClick={() => deleteTask(index)} style={{ marginLeft: '10px' }}>
-                <FontAwesomeIcon icon={faTrash} /> {/* Icono de basurero */}
-              </button>
+            <button onClick={() => deleteTask(index)} style={{ marginLeft: '10px' }}>
+              <FontAwesomeIcon icon={faTrash} />
+            </button>
           </li>
         ))}
       </ul>
     </div>
   );
 }
-
 
 export default TodoList;
