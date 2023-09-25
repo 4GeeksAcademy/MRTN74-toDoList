@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
+
 function TodoList() {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
@@ -18,7 +19,7 @@ function TodoList() {
     setTasks(updatedTasks);
   };
 
-  const handleKeyPress = (event) => {
+  const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       addTask();
     }
@@ -36,7 +37,7 @@ function TodoList() {
           placeholder="Nueva tarea"
           value={newTask}
           onChange={(e) => setNewTask(e.target.value)}
-          onKeyPress={handleKeyPress}
+          onKeyDown={handleKeyDown}
         />
         <button onClick={addTask}>Agregar</button>
       </div>
