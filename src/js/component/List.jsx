@@ -50,7 +50,7 @@ function TodoList() {
         {tasks.map((task, index) => (
           <li key={index} className={task.completed ? 'completed-task' : ''}>
             <button onClick={() => toggleComplete(index)}>
-              <FontAwesomeIcon icon={faCheckCircle} /> {/* Siempre muestra el icono de verificación de Font Awesome */}
+              <FontAwesomeIcon icon={faCheckCircle} />
             </button>
             <span className={task.completed ? 'completed-text' : ''}>{task.text}</span>
             <button onClick={() => deleteTask(index)}>
