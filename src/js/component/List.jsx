@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
-
+import { faTrash, faCheckCircle } from '@fortawesome/free-solid-svg-icons'; // Importa los iconos de Font Awesome
 
 function TodoList() {
   const [tasks, setTasks] = useState([]);
@@ -9,7 +8,7 @@ function TodoList() {
 
   const addTask = () => {
     if (newTask.trim() === '') return;
-    setTasks([...tasks, newTask]);
+    setTasks([...tasks, { text: newTask, completed: false }]);
     setNewTask('');
   };
 
@@ -19,20 +18,24 @@ function TodoList() {
     setTasks(updatedTasks);
   };
 
+  const toggleComplete = (index) => {
+    const updatedTasks = [...tasks];
+    updatedTasks[index].completed = !updatedTasks[index].completed;
+    setTasks(updatedTasks);
+  };
+
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       addTask();
     }
   };
 
-  const taskCount = tasks.length;
-
   return (
     <div className="todo-container">
       <h1>LISTA DE TAREAS</h1>
-        <p className="task-count">
-          Total de Tareas: <span>{taskCount}</span>
-        </p>
+      <p className="task-count">
+        Total de Tareas: <span>{tasks.length}</span>
+      </p>
       <div>
         <input
           type="text"
@@ -45,9 +48,12 @@ function TodoList() {
       </div>
       <ul>
         {tasks.map((task, index) => (
-          <li key={index}>
-            {task} 
-            <button onClick={() => deleteTask(index)} style={{ marginLeft: '10px' }}>
+          <li key={index} className={task.completed ? 'completed-task' : ''}>
+            <button onClick={() => toggleComplete(index)}>
+              <FontAwesomeIcon icon={faCheckCircle} /> {/* Siempre muestra el icono de verificación de Font Awesome */}
+            </button>
+            <span className={task.completed ? 'completed-text' : ''}>{task.text}</span>
+            <button onClick={() => deleteTask(index)}>
               <FontAwesomeIcon icon={faTrash} />
             </button>
           </li>
